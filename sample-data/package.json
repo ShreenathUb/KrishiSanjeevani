@@ -1,0 +1,13 @@
+{
+  "name": "sample-data",
+  "version": "1.0.0",
+  "description": "Sample data seeding for Krishi-Sanjeevani Lite",
+  "scripts": {
+    "seed": "node seed.js",
+    "test": "node test-prediction.js"
+  },
+  "dependencies": {
+    "mongoose": "^7.5.0",
+    "axios": "^1.5.0"
+  }
+}

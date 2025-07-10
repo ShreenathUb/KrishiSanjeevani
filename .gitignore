@@ -1,0 +1,40 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.env
+venv/
+.env.local
+
+# React/Vite frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.DS_Store
+
+# Backend
+backend/node_modules/
+backend/.env
+backend/.DS_Store
+
+# ML Service
+ml-service/__pycache__/
+ml-service/.env
+ml-service/.DS_Store
+
+# VSCode + system files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
