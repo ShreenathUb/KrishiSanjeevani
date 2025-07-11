@@ -444,11 +444,11 @@ const FarmerDeals = () => {
     try {
       // Check if farmer is logged in and has valid ID
       const farmerData = localStorage.getItem('farmer')
-      if (!farmerData) {
-        setError('Please login as a farmer first')
-        setLoading(false)
-        return
-      }
+      // if (!farmerData) {
+      //   setError('Please login as a farmer first')
+      //   setLoading(false)
+      //   return
+      // }
 
       const farmer = JSON.parse(farmerData)
       const farmerId = farmer.id || farmer._id
