@@ -440,40 +440,82 @@ const FarmerDeals = () => {
     fetchDeals()
   }, [])
 
+  // const fetchDeals = async () => {
+  //   try {
+  //     // Check if farmer is logged in and has valid ID
+  //     const farmerData = localStorage.getItem('farmer')
+  //     // if (!farmerData) {
+  //     //   setError('Please login as a farmer first')
+  //     //   setLoading(false)
+  //     //   return
+  //     // }
+
+  //     const farmer = JSON.parse(farmerData)
+  //     const farmerId = farmer.id || farmer._id
+      
+  //     if (!farmerId) {
+  //       setError('Invalid farmer session. Please login again.')
+  //       setLoading(false)
+  //       return
+  //     }
+
+  //     // Fetch farmer's deals
+  //     const myDealsResponse = await dealAPI.getForFarmer(farmerId)
+  //     setMyDeals(myDealsResponse.data.deals || [])
+      
+  //     // Fetch pending deals
+  //     const pendingDealsResponse = await dealAPI.getPending()
+  //    setPendingDeals(pendingDealsResponse.data.deals || [])
+
+      
+  //   } catch (err) {
+  //     setError('Error loading deals: ' + err.message)
+  //   } finally {
+  //     setLoading(false)
+  //   }
+  // }
+
   const fetchDeals = async () => {
-    try {
-      // Check if farmer is logged in and has valid ID
-      const farmerData = localStorage.getItem('farmer')
-      // if (!farmerData) {
-      //   setError('Please login as a farmer first')
-      //   setLoading(false)
-      //   return
-      // }
-
+  try {
+    let farmerId = null;
+    
+    // Check for farmer data from OTP flow
+    const farmerData = localStorage.getItem('farmer')
+    if (farmerData) {
       const farmer = JSON.parse(farmerData)
-      const farmerId = farmer.id || farmer._id
-      
-      if (!farmerId) {
-        setError('Invalid farmer session. Please login again.')
-        setLoading(false)
-        return
-      }
-
-      // Fetch farmer's deals
-      const myDealsResponse = await dealAPI.getForFarmer(farmerId)
-      setMyDeals(myDealsResponse.data.deals || [])
-      
-      // Fetch pending deals
-      const pendingDealsResponse = await dealAPI.getPending()
-     setPendingDeals(pendingDealsResponse.data.deals || [])
-
-      
-    } catch (err) {
-      setError('Error loading deals: ' + err.message)
-    } finally {
-      setLoading(false)
+      farmerId = farmer.id || farmer._id
     }
+    
+    // If no farmer data, check for demo login data
+    if (!farmerId) {
+      const userType = localStorage.getItem('userType')
+      const userId = localStorage.getItem('userId')
+      
+      if (userType === 'farmer' && userId) {
+        farmerId = userId
+      }
+    }
+    
+    if (!farmerId) {
+      setError('Please login as a farmer first')
+      setLoading(false)
+      return
+    }
+    
+    // Fetch farmer's deals
+    const myDealsResponse = await dealAPI.getForFarmer(farmerId)
+    setMyDeals(myDealsResponse.data.deals || [])
+   
+    // Fetch pending deals
+    const pendingDealsResponse = await dealAPI.getPending()
+    setPendingDeals(pendingDealsResponse.data.deals || [])
+   
+  } catch (err) {
+    setError('Error loading deals: ' + err.message)
+  } finally {
+    setLoading(false)
   }
+}
 
   const handleApprove = async () => {
   if (!selectedDeal || !otp) return
