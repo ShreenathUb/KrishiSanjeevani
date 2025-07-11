@@ -15,7 +15,7 @@ const Login = () => {
 
   try {
     // Make a call to backend to fetch the user by phone
-    const response = await fetch(`http://krishisanjeevani/api/${userType}/by-phone/${phone}`);
+    const response = await fetch(`http://krishisanjeevani.onrender.com/api/${userType}/by-phone/${phone}`);
     const data = await response.json();
 
     if (!response.ok) {
