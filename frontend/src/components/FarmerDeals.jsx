@@ -563,24 +563,24 @@ const FarmerDeals = () => {
     setShowRejectionModal(true)
   }
 
-  // Check if farmer is logged in
-  const farmerData = localStorage.getItem('farmer')
-  if (!farmerData) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="text-6xl mb-6">🚫</div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Access Denied</h2>
-          <p className="text-gray-600 mb-8">Please login as a farmer to access deals.</p>
-          <Link to="/farmer/login">
-            <button className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-2xl font-semibold hover:from-emerald-400 hover:to-teal-400 transition-all duration-300">
-              Login as Farmer
-            </button>
-          </Link>
-        </div>
-      </div>
-    )
-  }
+  // // Check if farmer is logged in
+  // const farmerData = localStorage.getItem('farmer')
+  // if (!farmerData) {
+  //   return (
+  //     <div className="min-h-screen flex items-center justify-center">
+  //       <div className="text-center">
+  //         <div className="text-6xl mb-6">🚫</div>
+  //         <h2 className="text-2xl font-bold text-gray-800 mb-4">Access Denied</h2>
+  //         <p className="text-gray-600 mb-8">Please login as a farmer to access deals.</p>
+  //         <Link to="/farmer/login">
+  //           <button className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-2xl font-semibold hover:from-emerald-400 hover:to-teal-400 transition-all duration-300">
+  //             Login as Farmer
+  //           </button>
+  //         </Link>
+  //       </div>
+  //     </div>
+  //   )
+  // }
 
   if (loading) {
     return (
