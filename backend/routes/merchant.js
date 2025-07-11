@@ -29,6 +29,7 @@ router.post('/register', async (req, res) => {
 router.get('/by-phone/:phone', async (req, res) => {
   try {
     const merchant = await Merchant.findOne({ phone: req.params.phone });
+    console.log("Request coming at merchant.js line 32 by phone ");
     if (!merchant) return res.status(404).json({ error: 'Merchant not found' });
     res.json(merchant);
   } catch (err) {

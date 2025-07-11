@@ -12,10 +12,18 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/krishi-db', {
+// mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/krishi-db', {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// });
+
+
+// MongoDB connection
+mongoose.connect('mongodb://localhost:27017/krishi-db', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+
 
 // Routes
 app.use('/api/farmer', require('./routes/farmer'));
