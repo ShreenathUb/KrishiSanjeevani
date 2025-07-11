@@ -517,7 +517,46 @@ const FarmerDeals = () => {
   }
 }
 
-  const handleApprove = async () => {
+//   const handleApprove = async () => {
+//   if (!selectedDeal || !otp) return
+
+//   if (processingDeal) return
+
+//   setProcessingDeal(selectedDeal._id)
+
+//   try {
+//     const farmerData = localStorage.getItem('farmer')
+//     if (!farmerData) {
+//       alert('Please login as a farmer first')
+//       return
+//     }
+
+//     const farmer = JSON.parse(farmerData)
+//     const farmerId = farmer._id || farmer.id
+
+//     if (!farmerId) {
+//       alert('Invalid farmer session. Please login again.')
+//       return
+//     }
+
+//     const response = await dealAPI.approve(selectedDeal._id, farmerId, otp)
+
+//     if (response.data?.success) {
+//       setShowApprovalModal(false)
+//       setOtp('')
+//       setSelectedDeal(null)
+//       fetchDeals()
+//       alert('Deal approved successfully!')
+//     } else {
+//       alert(response.data?.error || 'Failed to approve deal')
+//     }
+//   } catch (err) {
+//     alert('Error approving deal: ' + (err.response?.data?.error || err.message))
+//   } finally {
+//     setProcessingDeal(null)
+//   }
+// }
+const handleApprove = async () => {
   if (!selectedDeal || !otp) return
 
   if (processingDeal) return
@@ -525,17 +564,27 @@ const FarmerDeals = () => {
   setProcessingDeal(selectedDeal._id)
 
   try {
+    let farmerId = null;
+    
+    // Check for farmer data from OTP flow
     const farmerData = localStorage.getItem('farmer')
-    if (!farmerData) {
-      alert('Please login as a farmer first')
-      return
+    if (farmerData) {
+      const farmer = JSON.parse(farmerData)
+      farmerId = farmer._id || farmer.id
+    }
+    
+    // If no farmer data, check for demo login data
+    if (!farmerId) {
+      const userType = localStorage.getItem('userType')
+      const userId = localStorage.getItem('userId')
+      
+      if (userType === 'farmer' && userId) {
+        farmerId = userId
+      }
     }
 
-    const farmer = JSON.parse(farmerData)
-    const farmerId = farmer._id || farmer.id
-
     if (!farmerId) {
-      alert('Invalid farmer session. Please login again.')
+      alert('Please login as a farmer first')
       return
     }
 
@@ -556,44 +605,92 @@ const FarmerDeals = () => {
     setProcessingDeal(null)
   }
 }
-  const handleReject = async () => {
-    if (!selectedDeal || !rejectionReason) return
+
+  // const handleReject = async () => {
+  //   if (!selectedDeal || !rejectionReason) return
     
-    setProcessingDeal(selectedDeal._id)
-    try {
-      // Get farmer ID from localStorage
-      const farmerData = localStorage.getItem('farmer')
-      if (!farmerData) {
-        alert('Please login as a farmer first')
-        return
-      }
+  //   setProcessingDeal(selectedDeal._id)
+  //   try {
+  //     // Get farmer ID from localStorage
+  //     const farmerData = localStorage.getItem('farmer')
+  //     if (!farmerData) {
+  //       alert('Please login as a farmer first')
+  //       return
+  //     }
 
+  //     const farmer = JSON.parse(farmerData)
+  //     const farmerId = farmer.id || farmer._id
+      
+  //     if (!farmerId) {
+  //       alert('Invalid farmer session. Please login again.')
+  //       return
+  //     }
+
+  //     const response = await dealAPI.reject(selectedDeal._id, farmerId, rejectionReason)
+      
+  //     if (response.ok) {
+  //       setShowRejectionModal(false)
+  //       setRejectionReason('')
+  //       setSelectedDeal(null)
+  //       fetchDeals() // Refresh deals
+  //       alert('Deal rejected successfully!')
+  //     } else {
+  //       const error = await response.json()
+  //       alert(error.error || 'Failed to reject deal')
+  //     }
+  //   } catch (err) {
+  //     alert('Error rejecting deal: ' + err.message)
+  //   } finally {
+  //     setProcessingDeal(null)
+  //   }
+  // }
+  const handleReject = async () => {
+  if (!selectedDeal || !rejectionReason) return
+  
+  setProcessingDeal(selectedDeal._id)
+  try {
+    let farmerId = null;
+    
+    // Check for farmer data from OTP flow
+    const farmerData = localStorage.getItem('farmer')
+    if (farmerData) {
       const farmer = JSON.parse(farmerData)
-      const farmerId = farmer.id || farmer._id
-      
-      if (!farmerId) {
-        alert('Invalid farmer session. Please login again.')
-        return
-      }
-
-      const response = await dealAPI.reject(selectedDeal._id, farmerId, rejectionReason)
-      
-      if (response.ok) {
-        setShowRejectionModal(false)
-        setRejectionReason('')
-        setSelectedDeal(null)
-        fetchDeals() // Refresh deals
-        alert('Deal rejected successfully!')
-      } else {
-        const error = await response.json()
-        alert(error.error || 'Failed to reject deal')
-      }
-    } catch (err) {
-      alert('Error rejecting deal: ' + err.message)
-    } finally {
-      setProcessingDeal(null)
+      farmerId = farmer.id || farmer._id
     }
+    
+    // If no farmer data, check for demo login data
+    if (!farmerId) {
+      const userType = localStorage.getItem('userType')
+      const userId = localStorage.getItem('userId')
+      
+      if (userType === 'farmer' && userId) {
+        farmerId = userId
+      }
+    }
+    
+    if (!farmerId) {
+      alert('Please login as a farmer first')
+      return
+    }
+
+    const response = await dealAPI.reject(selectedDeal._id, farmerId, rejectionReason)
+    
+    if (response.ok) {
+      setShowRejectionModal(false)
+      setRejectionReason('')
+      setSelectedDeal(null)
+      fetchDeals() // Refresh deals
+      alert('Deal rejected successfully!')
+    } else {
+      const error = await response.json()
+      alert(error.error || 'Failed to reject deal')
+    }
+  } catch (err) {
+    alert('Error rejecting deal: ' + err.message)
+  } finally {
+    setProcessingDeal(null)
   }
+}
 
   const openApprovalModal = (deal) => {
     setSelectedDeal(deal)
