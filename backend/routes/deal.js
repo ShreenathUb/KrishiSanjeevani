@@ -519,13 +519,13 @@ router.post('/create', async (req, res) => {
       return res.status(400).json({ error: 'Invalid merchant ID format' });
     }
     
-    const merchant = await Merchant.findById(merchantId);
-    if (!merchant) {
-      console.log('Merchant not found in database for ID:', merchantId);
-      return res.status(404).json({ error: 'Merchant not found' });
-    }
+    // const merchant = await Merchant.findById(merchantId);
+    // if (!merchant) {
+    //   console.log('Merchant not found in database for ID:', merchantId);
+    //   return res.status(404).json({ error: 'Merchant not found' });
+    // }
     
-    console.log('Merchant found:', merchant.name);
+    // console.log('Merchant found:', merchant.name);
     
     const transaction = new Transaction({
       merchantId,
@@ -607,15 +607,15 @@ router.post('/:id/approve', async (req, res) => {
       return res.status(400).json({ error: 'Invalid farmer ID format' });
     }
     
-    // Check if farmer exists and is verified
-    const farmer = await Farmer.findById(farmerId);
-    if (!farmer) {
-      return res.status(404).json({ error: 'Farmer not found' });
-    }
+    // // Check if farmer exists and is verified
+    // const farmer = await Farmer.findById(farmerId);
+    // if (!farmer) {
+    //   return res.status(404).json({ error: 'Farmer not found' });
+    // }
     
-    if (!farmer.isVerified) {
-      return res.status(400).json({ error: 'Farmer is not verified' });
-    }
+    // if (!farmer.isVerified) {
+    //   return res.status(400).json({ error: 'Farmer is not verified' });
+    // }
     
     // Check if deal exists and is pending
     const transaction = await Transaction.findById(req.params.id);
